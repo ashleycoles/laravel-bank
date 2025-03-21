@@ -20,7 +20,6 @@ class AccountFactory extends Factory
             'firstname' => $this->faker->firstName(),
             'lastname' => $this->faker->lastName(),
             'uuid' => $this->faker->uuid(),
-            'balance' => rand(0, 10000),
         ];
     }
 }
