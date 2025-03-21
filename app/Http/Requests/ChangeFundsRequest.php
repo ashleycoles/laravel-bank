@@ -14,7 +14,7 @@ class ChangeFundsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'uuid' => 'required|string',
+            'uuid' => 'required|uuid',
             'amount' => 'required|integer|min:1',
         ];
     }
