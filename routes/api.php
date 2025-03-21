@@ -14,5 +14,5 @@ Route::controller(AccountController::class)->group(function () {
 
     Route::post('/accounts/deposit', 'deposit')->name('accounts.deposit');
     Route::post('/accounts/withdraw', 'withdraw')->name('accounts.withdraw');
-    Route::put('/accounts/overdraft', 'updateOverdraftLimit')->name('accounts.overdraft.update');
+    Route::post('/accounts/overdraft', 'updateOverdraftLimit')->name('accounts.overdraft.update');
 });
