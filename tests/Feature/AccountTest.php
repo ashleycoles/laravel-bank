@@ -168,4 +168,20 @@ describe('account overdraft limits', function () {
        ]);
     });
 
+    it('rejects updates to overdraft limit higher than balance', function () {
+        $account = Account::factory()->create();
+        $account->updateOverdraftLimit(-100);
+        $account->withdraw(100);
+
+        $this->postJson(route('accounts.overdraft.update'), [
+            'uuid' => $account->uuid,
+            'limit' => -10
+        ])
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('accounts', [
+            'uuid' => $account->uuid,
+            'overdraft' => -100
+        ]);
+    });
 });
