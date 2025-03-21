@@ -19,7 +19,7 @@ class Account extends Model
     /**
      * @param  array<string, string>  $attributes
      */
-    public static function createWithAttributes(array $attributes): Account|null
+    public static function createWithAttributes(array $attributes): ?Account
     {
         $uuid = (string) Uuid::uuid4();
 

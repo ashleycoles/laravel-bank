@@ -19,7 +19,7 @@ class AccountController extends Controller
 
         if (! $account) {
             return response()->json([
-               'message' => 'Account creation failed'
+                'message' => 'Account creation failed',
             ], 500);
         }
 

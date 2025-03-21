@@ -76,10 +76,10 @@ describe('account deposits', function () {
         ]);
     });
 
-    it('handles missing account', function() {
+    it('handles missing account', function () {
         $this->postJson(route('accounts.deposit'), [
             'uuid' => fake()->uuid(),
-            'amount' => 100
+            'amount' => 100,
         ])
             ->assertNotFound();
     });
@@ -158,10 +158,10 @@ describe('account withdraws', function () {
         ]);
     });
 
-    it('handles missing account', function() {
+    it('handles missing account', function () {
         $this->postJson(route('accounts.withdraw'), [
             'uuid' => fake()->uuid(),
-            'amount' => 100
+            'amount' => 100,
         ])
             ->assertNotFound();
     });
@@ -200,10 +200,10 @@ describe('account overdraft limits', function () {
         ]);
     });
 
-    it('handles missing account', function() {
+    it('handles missing account', function () {
         $this->postJson(route('accounts.overdraft.update'), [
             'uuid' => fake()->uuid(),
-            'limit' => -100
+            'limit' => -100,
         ])
             ->assertNotFound();
     });
