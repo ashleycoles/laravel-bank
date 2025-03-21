@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +16,8 @@ Route::controller(AccountController::class)->group(function () {
     Route::post('/accounts/deposit', 'deposit')->name('accounts.deposit');
     Route::post('/accounts/withdraw', 'withdraw')->name('accounts.withdraw');
     Route::post('/accounts/overdraft', 'updateOverdraftLimit')->name('accounts.overdraft.update');
+});
+
+Route::controller(TransactionController::class)->group(function () {
+    Route::post('/transactions/send', 'send')->name('transactions.send');
 });

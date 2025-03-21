@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Aggregates\AccountAggregate;
+use App\Exceptions\CouldNotSendTransaction;
 use App\Exceptions\CouldNotUpdateOverdraftLimit;
 use App\Exceptions\CouldNotWithdraw;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,6 +45,23 @@ class Account extends Model
     {
         AccountAggregate::retrieve($this->uuid)
             ->withdraw($amount)
+            ->persist();
+    }
+
+    /**
+     * @throws CouldNotSendTransaction
+     */
+    public function sendTransaction(int $amount): void
+    {
+        AccountAggregate::retrieve($this->uuid)
+            ->sendTransaction($amount)
+            ->persist();
+    }
+
+    public function receiveTransaction(int $amount): void
+    {
+        AccountAggregate::retrieve($this->uuid)
+            ->receiveTransaction($amount)
             ->persist();
     }
 

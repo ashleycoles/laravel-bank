@@ -6,6 +6,9 @@ use App\Events\AccountCreated;
 use App\Events\FundsDeposited;
 use App\Events\FundsWithdrawn;
 use App\Events\OverdraftLimitUpdated;
+use App\Events\TransactionReceived;
+use App\Events\TransactionSent;
+use App\Exceptions\CouldNotSendTransaction;
 use App\Exceptions\CouldNotUpdateOverdraftLimit;
 use App\Exceptions\CouldNotWithdraw;
 use Spatie\EventSourcing\AggregateRoots\AggregateRoot;
@@ -35,11 +38,32 @@ class AccountAggregate extends AggregateRoot
      */
     public function withdraw(int $amount): static
     {
-        if (! $this->hasSufficientFundsToWithdraw($amount)) {
+        if (! $this->hasSufficientFundsToSubtract($amount)) {
             throw CouldNotWithdraw::insufficientFunds($amount);
         }
 
         $this->recordThat(new FundsWithdrawn($amount));
+
+        return $this;
+    }
+
+    /**
+     * @throws CouldNotSendTransaction
+     */
+    public function sendTransaction(int $amount): static
+    {
+        if (! $this->hasSufficientFundsToSubtract($amount)) {
+            throw CouldNotSendTransaction::insufficientFunds($amount);
+        }
+
+        $this->recordThat(new TransactionSent($amount));
+
+        return $this;
+    }
+
+    public function receiveTransaction(int $amount): static
+    {
+        $this->recordThat(new TransactionReceived($amount));
 
         return $this;
     }
@@ -68,12 +92,22 @@ class AccountAggregate extends AggregateRoot
         $this->balance -= $event->amount;
     }
 
+    public function applyTransactionReceived(TransactionReceived $event): void
+    {
+        $this->balance += $event->amount;
+    }
+
+    public function applyTransactionSent(TransactionSent $event): void
+    {
+        $this->balance -= $event->amount;
+    }
+
     public function applyOverdraftLimitUpdated(OverdraftLimitUpdated $event): void
     {
         $this->overdraftLimit = $event->limit;
     }
 
-    private function hasSufficientFundsToWithdraw(int $amount): bool
+    private function hasSufficientFundsToSubtract(int $amount): bool
     {
         return $this->balance - $amount >= $this->overdraftLimit;
     }
