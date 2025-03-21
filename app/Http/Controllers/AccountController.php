@@ -51,7 +51,7 @@ class AccountController extends Controller
             $account->withdraw($request->amount);
         } catch (CouldNotWithdraw $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 403);
         }
 
@@ -68,7 +68,7 @@ class AccountController extends Controller
             $account->updateOverdraftLimit($request->limit);
         } catch (CouldNotUpdateOverdraftLimit $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 403);
         }
 
