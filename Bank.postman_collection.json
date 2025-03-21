@@ -25,7 +25,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstname\": \"Rebecca\",\n    \"lastname\": \"Coles\"\n}",
+							"raw": "{\n    \"firstname\": \"Ashley\",\n    \"lastname\": \"Coles\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -150,7 +150,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"uuid\": \"acdc5a20-aea3-484d-a5d7-224719c06d93\",\n    \"amount\": 1000\n}",
+							"raw": "{\n    \"uuid\": \"d790b028-6b6e-4580-a91d-f3459aae4d3d\",\n    \"amount\": 1000\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -171,6 +171,53 @@
 								"api",
 								"accounts",
 								"deposit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Send",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sender_uuid\": \"d790b028-6b6e-4580-a91d-f3459aae4d3d\",\n    \"recipient_uuid\": \"6e15da1a-bae8-47a2-b8af-b81ce8499d7b\",\n    \"amount\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/transactions/send",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"transactions",
+								"send"
 							]
 						}
 					},
