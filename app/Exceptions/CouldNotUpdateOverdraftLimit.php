@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
-class CouldNotUpdateOverdraftLimit extends \Exception
+final class CouldNotUpdateOverdraftLimit extends \Exception
 {
     public static function limitBreach(int $limit): self
     {
-        return new static("Current overdraft exceeds $limit");
+        return new CouldNotUpdateOverdraftLimit("Current overdraft exceeds $limit");
     }
 }

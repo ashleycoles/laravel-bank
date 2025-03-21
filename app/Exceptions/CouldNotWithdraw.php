@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
-class CouldNotWithdraw extends \Exception
+final class CouldNotWithdraw extends \Exception
 {
     public static function insufficientFunds(int $amount): self
     {
-        return new static("Insufficient funds to withdraw $amount.");
+        return new CouldNotWithdraw("Insufficient funds to withdraw $amount.");
     }
 }
