@@ -11,10 +11,21 @@ class AccountController extends Controller
 {
     public function create(CreateAccountRequest $request): JsonResponse
     {
-        Account::createWithAttributes($request->validated());
+        $account = Account::createWithAttributes($request->validated());
 
         return response()->json([
-            'message' => 'Account Created'
+            'message' => 'Account Created',
+            'data' => [
+                'uuid' => $account->uuid
+            ]
         ], 201);
+    }
+
+    public function index(): JsonResponse
+    {
+        return response()->json([
+           'message' => 'Accounts retrieved',
+           'data' => Account::select(['uuid', 'firstname', 'lastname'])->get(),
+        ]);
     }
 }

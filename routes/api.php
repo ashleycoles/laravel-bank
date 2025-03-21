@@ -9,5 +9,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::controller(AccountController::class)->group(function () {
-   Route::post('/accounts', 'create')->name('accounts.create');
+    Route::get('/accounts', 'index')->name('accounts.index');
+    Route::post('/accounts', 'create')->name('accounts.create');
 });
