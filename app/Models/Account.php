@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Aggregates\AccountAggregate;
+use App\Exceptions\CouldNotWithdraw;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
@@ -32,6 +33,9 @@ class Account extends Model
             ->persist();
     }
 
+    /**
+     * @throws CouldNotWithdraw
+     */
     public function withdraw(int $amount): void
     {
         AccountAggregate::retrieve($this->uuid)
