@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use App\Aggregates\AccountAggregate;
-use App\Events\AccountCreated;
-use App\Events\FundsDeposited;
-use App\Events\FundsWithdrawn;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;

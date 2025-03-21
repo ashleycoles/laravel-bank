@@ -7,7 +7,6 @@ use App\Http\Requests\CreateAccountRequest;
 use App\Http\Requests\UpdateOverdraftLimitRequest;
 use App\Models\Account;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
@@ -18,16 +17,16 @@ class AccountController extends Controller
         return response()->json([
             'message' => 'Account Created',
             'data' => [
-                'uuid' => $account->uuid
-            ]
+                'uuid' => $account->uuid,
+            ],
         ], 201);
     }
 
     public function index(): JsonResponse
     {
         return response()->json([
-           'message' => 'Accounts retrieved',
-           'data' => Account::select(['uuid', 'firstname', 'lastname'])->get(),
+            'message' => 'Accounts retrieved',
+            'data' => Account::select(['uuid', 'firstname', 'lastname'])->get(),
         ]);
     }
 
@@ -38,7 +37,7 @@ class AccountController extends Controller
         $account->deposit($request->amount);
 
         return response()->json([
-            'message' => 'Deposited successfully'
+            'message' => 'Deposited successfully',
         ]);
     }
 
@@ -49,7 +48,7 @@ class AccountController extends Controller
         $account->withdraw($request->amount);
 
         return response()->json([
-            'message' => 'Withdrawn successfully'
+            'message' => 'Withdrawn successfully',
         ]);
     }
 
@@ -60,7 +59,7 @@ class AccountController extends Controller
         $account->updateOverdraftLimit($request->limit);
 
         return response()->json([
-            'message' => 'Overdraft limit updated successfully'
+            'message' => 'Overdraft limit updated successfully',
         ]);
     }
 }

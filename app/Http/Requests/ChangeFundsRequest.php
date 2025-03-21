@@ -15,7 +15,7 @@ class ChangeFundsRequest extends FormRequest
     {
         return [
             'uuid' => 'required|string',
-            'amount' => 'required|integer|min:1'
+            'amount' => 'required|integer|min:1',
         ];
     }
 }

@@ -15,7 +15,7 @@ class UpdateOverdraftLimitRequest extends FormRequest
     {
         return [
             'uuid' => 'required|string',
-            'limit' => 'required|int|max:0'
+            'limit' => 'required|int|max:0',
         ];
     }
 }

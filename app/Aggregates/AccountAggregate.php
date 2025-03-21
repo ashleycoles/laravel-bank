@@ -12,6 +12,7 @@ use Spatie\EventSourcing\AggregateRoots\AggregateRoot;
 class AccountAggregate extends AggregateRoot
 {
     private int $balance = 0;
+
     private int $overdraftLimit = 0;
 
     public function createAccount(string $firstname, string $lastname): static
@@ -27,7 +28,6 @@ class AccountAggregate extends AggregateRoot
 
         return $this;
     }
-
 
     /**
      * @throws CouldNotWithdraw

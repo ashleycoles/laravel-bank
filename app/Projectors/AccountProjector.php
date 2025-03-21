@@ -16,7 +16,7 @@ class AccountProjector extends Projector
         Account::create([
             'firstname' => $event->firstname,
             'lastname' => $event->lastname,
-            'uuid' => $event->aggregateRootUuid()
+            'uuid' => $event->aggregateRootUuid(),
         ]);
     }
 
