@@ -16,6 +16,9 @@ class Account extends Model
 
     protected $fillable = ['firstname', 'lastname', 'uuid'];
 
+    /**
+     * @param  array<string, string>  $attributes
+     */
     public static function createWithAttributes(array $attributes): Account
     {
         $uuid = (string) Uuid::uuid4();
