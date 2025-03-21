@@ -76,6 +76,14 @@ describe('account deposits', function () {
         ]);
     });
 
+    it('handles missing account', function() {
+        $this->postJson(route('accounts.deposit'), [
+            'uuid' => fake()->uuid(),
+            'amount' => 100
+        ])
+            ->assertNotFound();
+    });
+
     it('rejects missing data', function () {
         $this->postJson(route('accounts.deposit'))
             ->assertInvalid(['uuid', 'amount']);
@@ -148,6 +156,14 @@ describe('account withdraws', function () {
             'uuid' => $account->uuid,
             'balance' => 0,
         ]);
+    });
+
+    it('handles missing account', function() {
+        $this->postJson(route('accounts.withdraw'), [
+            'uuid' => fake()->uuid(),
+            'amount' => 100
+        ])
+            ->assertNotFound();
     });
 });
 

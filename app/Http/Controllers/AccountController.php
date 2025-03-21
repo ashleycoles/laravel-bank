@@ -36,6 +36,12 @@ class AccountController extends Controller
     {
         $account = Account::uuid($request->uuid);
 
+        if (! $account) {
+            return response()->json([
+                'message' => 'Account not found',
+            ], 404);
+        }
+
         $account->deposit($request->amount);
 
         return response()->json([
@@ -46,6 +52,12 @@ class AccountController extends Controller
     public function withdraw(ChangeFundsRequest $request): JsonResponse
     {
         $account = Account::uuid($request->uuid);
+
+        if (! $account) {
+            return response()->json([
+                'message' => 'Account not found',
+            ], 404);
+        }
 
         try {
             $account->withdraw($request->amount);
