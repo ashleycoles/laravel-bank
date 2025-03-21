@@ -8,6 +8,7 @@ use App\Http\Requests\ChangeFundsRequest;
 use App\Http\Requests\CreateAccountRequest;
 use App\Http\Requests\UpdateOverdraftLimitRequest;
 use App\Models\Account;
+use Exception;
 use Illuminate\Http\JsonResponse;
 
 class AccountController extends Controller
@@ -48,7 +49,13 @@ class AccountController extends Controller
             ], 404);
         }
 
-        $account->deposit($request->amount);
+        try {
+            $account->deposit($request->amount);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
 
         return response()->json([
             'message' => 'Deposited successfully',

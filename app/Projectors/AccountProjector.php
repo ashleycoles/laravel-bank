@@ -23,6 +23,11 @@ class AccountProjector extends Projector
     public function onAccountDeposit(FundsDeposited $event): void
     {
         $account = Account::uuid($event->aggregateRootUuid());
+
+        if (! $account) {
+            throw new \RuntimeException('Account not found for UUID: ' . $event->aggregateRootUuid());
+        }
+
         $account->balance += $event->amount;
         $account->save();
     }
@@ -30,6 +35,11 @@ class AccountProjector extends Projector
     public function onAccountWithdraw(FundsWithdrawn $event): void
     {
         $account = Account::uuid($event->aggregateRootUuid());
+
+        if (! $account) {
+            throw new \RuntimeException('Account not found for UUID: ' . $event->aggregateRootUuid());
+        }
+
         $account->balance -= $event->amount;
         $account->save();
     }
@@ -37,6 +47,11 @@ class AccountProjector extends Projector
     public function onOverdraftLimitUpdated(OverdraftLimitUpdated $event): void
     {
         $account = Account::uuid($event->aggregateRootUuid());
+
+        if (! $account) {
+            throw new \RuntimeException('Account not found for UUID: ' . $event->aggregateRootUuid());
+        }
+
         $account->overdraft = $event->limit;
         $account->save();
     }

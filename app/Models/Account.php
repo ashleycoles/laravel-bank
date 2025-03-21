@@ -57,8 +57,12 @@ class Account extends Model
             ->persist();
     }
 
-    public static function uuid(string $uuid): ?Account
+    public static function uuid(?string $uuid): ?Account
     {
+        if (! $uuid) {
+            return null;
+        }
+
         return static::where('uuid', $uuid)->first();
     }
 }
