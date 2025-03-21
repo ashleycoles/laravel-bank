@@ -10,5 +10,5 @@ class OverdraftLimitUpdated extends ShouldBeStored
 {
     use Dispatchable, SerializesModels;
 
-    public function __construct(public string $uuid, public int $limit) {}
+    public function __construct(public int $limit) {}
 }

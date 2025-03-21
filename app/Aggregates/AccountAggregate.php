@@ -25,7 +25,7 @@ class AccountAggregate extends AggregateRoot
 
     public function deposit(int $amount): static
     {
-        $this->recordThat(new FundsDeposited($this->uuid(), $amount));
+        $this->recordThat(new FundsDeposited($amount));
 
         return $this;
     }
@@ -39,7 +39,7 @@ class AccountAggregate extends AggregateRoot
             throw CouldNotWithdraw::insufficientFunds($amount);
         }
 
-        $this->recordThat(new FundsWithdrawn($this->uuid(), $amount));
+        $this->recordThat(new FundsWithdrawn($amount));
 
         return $this;
     }
@@ -53,7 +53,7 @@ class AccountAggregate extends AggregateRoot
             throw CouldNotUpdateOverdraftLimit::limitBreach($limit);
         }
 
-        $this->recordThat(new OverdraftLimitUpdated($this->uuid(), $limit));
+        $this->recordThat(new OverdraftLimitUpdated($limit));
 
         return $this;
     }

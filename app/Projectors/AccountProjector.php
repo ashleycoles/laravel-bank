@@ -22,21 +22,21 @@ class AccountProjector extends Projector
 
     public function onAccountDeposit(FundsDeposited $event): void
     {
-        $account = Account::uuid($event->uuid);
+        $account = Account::uuid($event->aggregateRootUuid());
         $account->balance += $event->amount;
         $account->save();
     }
 
     public function onAccountWithdraw(FundsWithdrawn $event): void
     {
-        $account = Account::uuid($event->uuid);
+        $account = Account::uuid($event->aggregateRootUuid());
         $account->balance -= $event->amount;
         $account->save();
     }
 
     public function onOverdraftLimitUpdated(OverdraftLimitUpdated $event): void
     {
-        $account = Account::uuid($event->uuid);
+        $account = Account::uuid($event->aggregateRootUuid());
         $account->overdraft = $event->limit;
         $account->save();
     }
