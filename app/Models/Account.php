@@ -42,6 +42,13 @@ class Account extends Model
             ->persist();
     }
 
+    public function updateOverdraftLimit(int $limit): void
+    {
+        AccountAggregate::retrieve($this->uuid)
+            ->updateOverdraftLimit($limit)
+            ->persist();
+    }
+
     public static function uuid(string $uuid): ?Account
     {
         return static::where('uuid', $uuid)->first();

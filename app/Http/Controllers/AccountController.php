@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangeFundsRequest;
 use App\Http\Requests\CreateAccountRequest;
+use App\Http\Requests\UpdateOverdraftLimitRequest;
 use App\Models\Account;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -49,6 +50,17 @@ class AccountController extends Controller
 
         return response()->json([
             'message' => 'Withdrawn successfully'
+        ]);
+    }
+
+    public function updateOverdraftLimit(UpdateOverdraftLimitRequest $request): JsonResponse
+    {
+        $account = Account::uuid($request->uuid);
+
+        $account->updateOverdraftLimit($request->limit);
+
+        return response()->json([
+            'message' => 'Overdraft limit updated successfully'
         ]);
     }
 }

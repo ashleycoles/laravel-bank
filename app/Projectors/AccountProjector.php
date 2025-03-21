@@ -5,6 +5,7 @@ namespace App\Projectors;
 use App\Events\AccountCreated;
 use App\Events\FundsDeposited;
 use App\Events\FundsWithdrawn;
+use App\Events\OverdraftLimitUpdated;
 use App\Models\Account;
 use Spatie\EventSourcing\EventHandlers\Projectors\Projector;
 
@@ -30,6 +31,13 @@ class AccountProjector extends Projector
     {
         $account = Account::uuid($event->uuid);
         $account->balance -= $event->amount;
+        $account->save();
+    }
+
+    public function onOverdraftLimitUpdated(OverdraftLimitUpdated $event): void
+    {
+        $account = Account::uuid($event->uuid);
+        $account->overdraft = $event->limit;
         $account->save();
     }
 }
