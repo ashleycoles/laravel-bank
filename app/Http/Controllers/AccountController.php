@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CouldNotUpdateOverdraftLimit;
 use App\Exceptions\CouldNotWithdraw;
 use App\Http\Requests\ChangeFundsRequest;
 use App\Http\Requests\CreateAccountRequest;
@@ -63,7 +64,13 @@ class AccountController extends Controller
     {
         $account = Account::uuid($request->uuid);
 
-        $account->updateOverdraftLimit($request->limit);
+        try {
+            $account->updateOverdraftLimit($request->limit);
+        } catch (CouldNotUpdateOverdraftLimit $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 403);
+        }
 
         return response()->json([
             'message' => 'Overdraft limit updated successfully',

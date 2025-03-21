@@ -6,6 +6,7 @@ use App\Events\AccountCreated;
 use App\Events\FundsDeposited;
 use App\Events\FundsWithdrawn;
 use App\Events\OverdraftLimitUpdated;
+use App\Exceptions\CouldNotUpdateOverdraftLimit;
 use App\Exceptions\CouldNotWithdraw;
 use Spatie\EventSourcing\AggregateRoots\AggregateRoot;
 
@@ -43,8 +44,15 @@ class AccountAggregate extends AggregateRoot
         return $this;
     }
 
+    /**
+     * @throws CouldNotUpdateOverdraftLimit
+     */
     public function updateOverdraftLimit(int $limit): static
     {
+        if (! $this->hasSufficientFundsToUpdateOverdraftLimit($limit)) {
+            throw CouldNotUpdateOverdraftLimit::limitBreach($limit);
+        }
+
         $this->recordThat(new OverdraftLimitUpdated($this->uuid(), $limit));
 
         return $this;
@@ -68,5 +76,10 @@ class AccountAggregate extends AggregateRoot
     private function hasSufficientFundsToWithdraw(int $amount): bool
     {
         return $this->balance - $amount >= $this->overdraftLimit;
+    }
+
+    private function hasSufficientFundsToUpdateOverdraftLimit(int $limit): bool
+    {
+        return $this->balance >= $limit;
     }
 }

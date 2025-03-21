@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Aggregates\AccountAggregate;
+use App\Exceptions\CouldNotUpdateOverdraftLimit;
 use App\Exceptions\CouldNotWithdraw;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -43,6 +44,9 @@ class Account extends Model
             ->persist();
     }
 
+    /**
+     * @throws CouldNotUpdateOverdraftLimit
+     */
     public function updateOverdraftLimit(int $limit): void
     {
         AccountAggregate::retrieve($this->uuid)
