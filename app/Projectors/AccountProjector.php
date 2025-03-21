@@ -3,6 +3,8 @@
 namespace App\Projectors;
 
 use App\Events\AccountCreated;
+use App\Events\FundsDeposited;
+use App\Events\FundsWithdrawn;
 use App\Models\Account;
 use Spatie\EventSourcing\EventHandlers\Projectors\Projector;
 
@@ -15,5 +17,19 @@ class AccountProjector extends Projector
             'lastname' => $event->lastname,
             'uuid' => $event->aggregateRootUuid()
         ]);
+    }
+
+    public function onAccountDeposit(FundsDeposited $event): void
+    {
+        $account = Account::uuid($event->uuid);
+        $account->balance += $event->amount;
+        $account->save();
+    }
+
+    public function onAccountWithdraw(FundsWithdrawn $event): void
+    {
+        $account = Account::uuid($event->uuid);
+        $account->balance -= $event->amount;
+        $account->save();
     }
 }

@@ -11,4 +11,7 @@ Route::get('/user', function (Request $request) {
 Route::controller(AccountController::class)->group(function () {
     Route::get('/accounts', 'index')->name('accounts.index');
     Route::post('/accounts', 'create')->name('accounts.create');
+
+    Route::post('/accounts/deposit', 'deposit')->name('accounts.deposit');
+    Route::post('/accounts/withdraw', 'withdraw')->name('account.withdraw');
 });

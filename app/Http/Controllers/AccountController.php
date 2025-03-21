@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeFundsRequest;
 use App\Http\Requests\CreateAccountRequest;
 use App\Models\Account;
 use Illuminate\Http\JsonResponse;
@@ -26,6 +27,28 @@ class AccountController extends Controller
         return response()->json([
            'message' => 'Accounts retrieved',
            'data' => Account::select(['uuid', 'firstname', 'lastname'])->get(),
+        ]);
+    }
+
+    public function deposit(ChangeFundsRequest $request): JsonResponse
+    {
+        $account = Account::uuid($request->uuid);
+
+        $account->deposit($request->amount);
+
+        return response()->json([
+            'message' => 'Deposited successfully'
+        ]);
+    }
+
+    public function withdraw(ChangeFundsRequest $request): JsonResponse
+    {
+        $account = Account::uuid($request->uuid);
+
+        $account->withdraw($request->amount);
+
+        return response()->json([
+            'message' => 'Withdrawn successfully'
         ]);
     }
 }
