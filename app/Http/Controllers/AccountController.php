@@ -16,6 +16,12 @@ class AccountController extends Controller
     {
         $account = Account::createWithAttributes($request->validated());
 
+        if (! $account) {
+            return response()->json([
+               'message' => 'Account creation failed'
+            ], 500);
+        }
+
         return response()->json([
             'message' => 'Account Created',
             'data' => [
