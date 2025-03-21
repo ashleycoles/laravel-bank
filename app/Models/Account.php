@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Aggregates\AccountAggregate;
 use App\Events\AccountCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,11 +17,13 @@ class Account extends Model
 
     public static function createWithAttributes(array $attributes): Account
     {
-        $attributes['uuid'] = (string) Uuid::uuid4();
+        $uuid = (string) Uuid::uuid4();
 
-        event(new AccountCreated($attributes));
+        AccountAggregate::retrieve($uuid)
+            ->createAccount($attributes['firstname'], $attributes['lastname'])
+            ->persist();
 
-        return static::uuid($attributes['uuid']);
+        return static::uuid($uuid);
     }
 
     public static function uuid(string $uuid): ?Account

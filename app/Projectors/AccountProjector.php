@@ -10,6 +10,10 @@ class AccountProjector extends Projector
 {
     public function onAccountCreated(AccountCreated $event): void
     {
-        Account::create($event->accountAttributes);
+        Account::create([
+            'firstname' => $event->firstname,
+            'lastname' => $event->lastname,
+            'uuid' => $event->aggregateRootUuid()
+        ]);
     }
 }

@@ -15,6 +15,6 @@ class AccountCreated extends ShouldBeStored
 {
     use Dispatchable, SerializesModels;
 
-    public function __construct(public array $accountAttributes)
+    public function __construct(public string $firstname, public string $lastname)
     {}
 }
