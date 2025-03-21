@@ -76,6 +76,12 @@ class AccountController extends Controller
     {
         $account = Account::uuid($request->uuid);
 
+        if (! $account) {
+            return response()->json([
+                'message' => 'Account not found',
+            ], 404);
+        }
+
         try {
             $account->updateOverdraftLimit($request->limit);
         } catch (CouldNotUpdateOverdraftLimit $e) {

@@ -199,4 +199,12 @@ describe('account overdraft limits', function () {
             'overdraft' => -100,
         ]);
     });
+
+    it('handles missing account', function() {
+        $this->postJson(route('accounts.overdraft.update'), [
+            'uuid' => fake()->uuid(),
+            'limit' => -100
+        ])
+            ->assertNotFound();
+    });
 });
