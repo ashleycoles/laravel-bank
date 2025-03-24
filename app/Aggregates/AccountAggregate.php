@@ -11,6 +11,7 @@ use App\Events\TransactionSent;
 use App\Exceptions\CouldNotSendTransaction;
 use App\Exceptions\CouldNotUpdateOverdraftLimit;
 use App\Exceptions\CouldNotWithdraw;
+use App\Models\Account;
 use Spatie\EventSourcing\AggregateRoots\AggregateRoot;
 
 class AccountAggregate extends AggregateRoot
@@ -50,13 +51,13 @@ class AccountAggregate extends AggregateRoot
     /**
      * @throws CouldNotSendTransaction
      */
-    public function sendTransaction(int $amount): static
+    public function sendTransaction(int $amount, Account $sender, Account $recipient): static
     {
         if (! $this->hasSufficientFundsToSubtract($amount)) {
             throw CouldNotSendTransaction::insufficientFunds($amount);
         }
 
-        $this->recordThat(new TransactionSent($amount));
+        $this->recordThat(new TransactionSent($amount, $sender, $recipient));
 
         return $this;
     }

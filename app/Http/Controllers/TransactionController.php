@@ -28,7 +28,7 @@ class TransactionController extends Controller
         }
 
         try {
-            $sender->sendTransaction($request->amount);
+            $sender->sendTransaction($request->amount, $recipient);
             $recipient->receiveTransaction($request->amount);
         } catch (CouldNotSendTransaction $e) {
             return response()->json([

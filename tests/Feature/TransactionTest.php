@@ -98,4 +98,23 @@ describe('account transactions', function () {
             });
     });
 
+    it('records transaction in transaction table', function () {
+        $sender = Account::factory()->create();
+        $sender->deposit(10);
+
+        $recipient = Account::factory()->create();
+
+        $this->postJson(route('transactions.send'), [
+            'sender_uuid' => $sender->uuid,
+            'recipient_uuid' => $recipient->uuid,
+            'amount' => 1,
+        ])
+            ->assertOk();
+
+        $this->assertDatabaseHas('transactions', [
+            'sender_id' => $sender->id,
+            'recipient_id' => $recipient->id,
+            'amount' => 1,
+        ]);
+    });
 });

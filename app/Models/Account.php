@@ -51,10 +51,10 @@ class Account extends Model
     /**
      * @throws CouldNotSendTransaction
      */
-    public function sendTransaction(int $amount): void
+    public function sendTransaction(int $amount, Account $recipient): void
     {
         AccountAggregate::retrieve($this->uuid)
-            ->sendTransaction($amount)
+            ->sendTransaction($amount, $this, $recipient)
             ->persist();
     }
 
